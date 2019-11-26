@@ -1,26 +1,25 @@
-package com.sky.date;
+package com.sky.date.step01;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class TestSimpleDateFormat2 {
+public class TestLocalDateFormat3 {
+    private static DateTimeFormatter sdf = DateTimeFormatter.ofPattern("yyyyMMdd");
     private static ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
     public static void main(String[] args) throws Exception {
-        Callable<Date> task = () -> TestDateFormatThreadLocal.convert("1990-04-18");
-
-
-        List<Future<Date>> result = new ArrayList<Future<Date>>();
+        Callable<LocalDate> task = () -> LocalDate.parse("19900418", sdf);
+        List<Future<LocalDate>> result = new ArrayList<Future<LocalDate>>();
         for (int i = 0; i < 10; i++) {
             result.add(threadPool.submit(task));
         }
-        for (Future<Date> temp : result) {
+        for (Future<LocalDate> temp : result) {
             System.out.println(temp.get());
         }
         threadPool.shutdown();
